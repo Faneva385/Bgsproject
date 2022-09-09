@@ -638,6 +638,7 @@ pre code {
   margin-left: -15px;
 }
 
+
 .no-gutters {
   margin-right: 0;
   margin-left: 0;
@@ -9825,7 +9826,7 @@ h6,
   right: 0;
   bottom: 0;
   text-align: left;
-  background: rgba(12, 12, 18, 0.7);
+  background: rgba(12, 12, 18, 0.1);
   z-index: 1;
 }
 
@@ -10130,7 +10131,13 @@ h6,
   list-style-type: none;
 }
 
+.valuebgs  {
+  display: flex ;
+  flex-wrap: wrap-reverse;
+}
+
 .bgs-logo{
-  max-width: 180px;
+  max-width: 200px;
   height: auto;
+  margin-bottom: 5px;
 }

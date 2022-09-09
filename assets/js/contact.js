@@ -8,8 +8,7 @@ import '../css/owl.carousel.min.css';
 import React,{ Component }  from 'react'
 import ReactDOM from 'react-dom/client';
 
-export class Contact extends Component{
-    render(){
+export const Contact = function(){
         return(
             <div className="container-fluid pb-5 contact-info">
                 <div className="row">
@@ -44,4 +43,3 @@ export class Contact extends Component{
             </div>
         )
     }
-}

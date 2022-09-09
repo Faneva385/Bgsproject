@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/api/login", name="app_login")
+     * @Route("/api/login", name="api_login")
      */
     public function login(): JsonResponse
     {
@@ -17,6 +17,7 @@ class SecurityController extends AbstractController
         return $this->json([
             'username' => $user->getUserIdentifier(),
             'roles' => $user->getRoles(),
+            "route"=> $this->generateUrl('app_home')
         ]);
     }
 

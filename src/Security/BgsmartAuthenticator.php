@@ -2,33 +2,62 @@
 
 namespace App\Security;
 
+use App\MyServices\ClientGoogle;
+use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use function mysql_xdevapi\getSession;
 
 class BgsmartAuthenticator extends AbstractAuthenticator
 {
+    private $clientGoogle;
+    private $userRepository;
+    private $router;
+
+    public function __construct(ClientGoogle $clientGoogle,UserRepository $userRepository, UrlGeneratorInterface $router)
+    {
+        $this->clientGoogle=$clientGoogle;
+        $this->userRepository=$userRepository;
+        $this->router=$router;
+    }
+
     public function supports(Request $request): ?bool
     {
-        // TODO: Implement supports() method.
+        return $request->query->has('code');
     }
 
     public function authenticate(Request $request): Passport
     {
-        // TODO: Implement authenticate() method.
+        $code =$request->query->get('code');
+        $this->clientGoogle->setTokenInSession($code);
+        $userEmail=$this->clientGoogle->getUserIdentification()->email;
+        return new SelfValidatingPassport(
+            new UserBadge($userEmail,function (string $userEmail){
+                return $this->userRepository->findOneBy(['email'=>$userEmail]);
+            })
+        );
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // TODO: Implement onAuthenticationSuccess() method.
+        return new RedirectResponse(
+            $this->router->generate('app_home')
+        );
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        // TODO: Implement onAuthenticationFailure() method.
+        return new RedirectResponse(
+            $this->router->generate('login_failed')
+        );
     }
 
 //    public function start(Request $request, AuthenticationException $authException = null): Response

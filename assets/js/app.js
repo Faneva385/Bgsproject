@@ -14,23 +14,16 @@ import {Footer} from "./footer.js";
 import {Carousel} from "./carousel";
 import {Contact} from "./contact";
 import {About_us} from './about_us'
+import {NavBarWithContent} from "./navbarbg";
 // import { BrowserRouter } from 'react-router-dom';
 // import Home from "./components/Home";
 
 class App extends Component {
     render() {
         return (<div>
-            <Header/>
-            <Carousel/>
-            <Contact/>
-            <About_us/>
+            <NavBarWithContent/>
             <Footer/>
             </div>
-            // <BrowserRouter>
-            //     <div>
-            //         <Home/>
-            //     </div>
-            // </BrowserRouter>
         )
     }
 }

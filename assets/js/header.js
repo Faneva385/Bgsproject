@@ -6,12 +6,14 @@ import logo from '../img/bgs-couleur.png';
 // start the Stimulus application
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom/client';
+import {Link} from "react-router-dom";
+import {Outlet} from "react-router";
 // import { BrowserRouter } from 'react-router-dom';
 // import Home from "./components/Home";
 
 export class Header extends Component {
     render() {
-        return (
+        return (<>
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-lg-3 bg-white d-none d-lg-block">
@@ -27,18 +29,16 @@ export class Header extends Component {
                             
                             <div className="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                                 <div className="navbar-nav mr-auto py-0">
-                                    <a href="index.html" className="nav-item nav-link active">Accueil</a>
-                                    <a href="about.html" className="nav-item nav-link">À propos</a>
-                                    <a href="service.html" className="nav-item nav-link">Notre service</a>
-                                    <a href="project.html" className="nav-item nav-link">Nos offres et produits</a>
-                                    <div className="nav-item dropdown">
-                                        <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                                        <div className="dropdown-menu rounded-0 m-0">
-                                            <a href="blog.html" className="dropdown-item">Latest Blog</a>
-                                            <a href="single.html" className="dropdown-item">Blog Detail</a>
-                                        </div>
-                                    </div>
-                                    <a href="contact.html" className="nav-item nav-link">Contact</a>
+                                    <Link to="/" className="nav-item nav-link ">Accueil</Link>
+                                    <Link to="/nos-services" className="nav-item nav-link">Notre service</Link>
+                                    {/*<div className="nav-item dropdown">*/}
+                                    {/*    <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>*/}
+                                    {/*    <div className="dropdown-menu rounded-0 m-0">*/}
+                                    {/*        <Link path="/blog/latest" className="dropdown-item">Latest Blog</Link>*/}
+                                    {/*        <Link path="/blog/detail" className="dropdown-item">Blog Detail</Link>*/}
+                                    {/*    </div>*/}
+                                    {/*</div>*/}
+                                    <Link to="/contact" className="nav-item nav-link">Contact</Link>
                                 </div>
                                 <a href="" className="btn btn-primary mr-3 d-none d-lg-block">Connexion</a>
                             </div>
@@ -50,11 +50,8 @@ export class Header extends Component {
                     </div>
                 </div>
             </div>
-            // <BrowserRouter>
-            //     <div>
-            //         <Home/>
-            //     </div>
-            // </BrowserRouter>
+        <Outlet/>
+    </>
         )
     }
 }

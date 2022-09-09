@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Blog details {% endblock %}
+
+{% block body_id 'Blog details' %}
+
+{% block main %}
+    <blog-block data-post="{{ post.id }}" data-user="{{ app.user?app.user.id:0 }}"></blog-block>
+
+{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('blog') }}
+{% endblock %}

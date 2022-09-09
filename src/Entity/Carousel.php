@@ -39,6 +39,12 @@ class Carousel
      */
     private $description;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ImageTag::class, inversedBy="carousels")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $tag;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -58,7 +64,7 @@ class Carousel
 
     public function getImageurl(): ?string
     {
-        return "uploads/images/". $this->imageurl;
+        return $this->imageurl;
     }
 
     public function setImageurl(string $imageurl): self
@@ -76,6 +82,18 @@ class Carousel
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getTag(): ?ImageTag
+    {
+        return $this->tag;
+    }
+
+    public function setTag(?ImageTag $tag): self
+    {
+        $this->tag = $tag;
 
         return $this;
     }

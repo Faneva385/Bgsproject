@@ -2,26 +2,39 @@
 
 namespace App\Controller;
 
+use App\Repository\CarouselRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PrincipalController extends AbstractController
+class HomeController extends AbstractController
 {
+    private $carourelRepo;
+    public function __construct(CarouselRepository $carouselRepository)
+    {
+        $this->carourelRepo=$carouselRepository;
+    }
+
     /**
      * @Route("/", name="app_home")
      */
     public function index(): Response
     {
-        return $this->render('principal/index.html.twig');
+        $carousel=$this->carourelRepo->findOneBy(['name'=>'home']);
+        $imgCar=$carousel->getImageurl();
+        $imgDesc=$carousel->getDescription();
+        return $this->render('home/index.html.twig',compact('imgCar','imgDesc'));
     }
 
     /**
-     * @Route("/services", name="app_services")
+     * @Route("/services", name="app_service")
      */
     public function services(): Response
     {
-        return $this->render('principal/services.html.twig');
+        $carousel=$this->carourelRepo->findOneBy(['name'=>'services']);
+        $imgCar=$carousel->getImageurl();
+        $imgDesc=$carousel->getDescription();
+        return $this->render('home/services.html.twig',compact('imgCar','imgDesc'));
     }
 
     /**
@@ -29,7 +42,10 @@ class PrincipalController extends AbstractController
      */
     public function contact(): Response
     {
-        return $this->render('principal/contact.html.twig');
+        $carousel=$this->carourelRepo->findOneBy(['name'=>'contact']);
+        $imgCar=$carousel->getImageurl();
+        $imgDesc=$carousel->getDescription();
+        return $this->render('home/contact.html.twig',compact('imgCar','imgDesc'));
     }
 
 }
