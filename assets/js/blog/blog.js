@@ -102,6 +102,7 @@ function Comments({post, user})  {
                 onUpdate={updateComment}
             />
             )}
+
         {hasMore && <button disabled={loading} className="btn btn-primary" onClick={load}>Charger plus de commentaire</button>}
         <br/> { user !== 0 && <CommentForm post={post} onComment={addComment}/> }
     </div>

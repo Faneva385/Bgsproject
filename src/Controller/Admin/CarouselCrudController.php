@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Carousel;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -25,6 +26,9 @@ class CarouselCrudController extends AbstractCrudController
                                         ->setUploadDir('public/uploads/images')
                                         ->setUploadedFileNamePattern('[randomhash].[extension]')
                                         ->setRequired(false),
+            AssociationField::new('carouselPlaces')
+                ->setCrudController(CarouselPlaceCrudController::getEntityFqcn())
+                ->setFormTypeOption('by_reference', false),
             TextEditorField::new('description'),
         ];
     }

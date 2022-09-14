@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Carousel;
+use App\Entity\CarouselPlace;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -37,6 +38,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Carousel image', 'fas fa-list', Carousel::class );
+        yield MenuItem::linkToCrud('Carousel place', 'fas fa-list', CarouselPlace::class);
         yield MenuItem::linkToCrud('User', 'fas fa-list', User::class );
     }
 }

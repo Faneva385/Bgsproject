@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CarouselRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -44,6 +46,16 @@ class Carousel
      * @ORM\JoinColumn(nullable=true)
      */
     private $tag;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=CarouselPlace::class, mappedBy="carousel")
+     */
+    private $carouselPlaces;
+
+    public function __construct()
+    {
+        $this->carouselPlaces = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -96,5 +108,37 @@ class Carousel
         $this->tag = $tag;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, CarouselPlace>
+     */
+    public function getCarouselPlaces(): Collection
+    {
+        return $this->carouselPlaces;
+    }
+
+    public function addCarouselPlace(CarouselPlace $carouselPlace): self
+    {
+        if (!$this->carouselPlaces->contains($carouselPlace)) {
+            $this->carouselPlaces[] = $carouselPlace;
+            $carouselPlace->addCarousel($this);
+        }
+        return $this;
+    }
+
+    public function removeCarouselPlace(CarouselPlace $carouselPlace): self
+    {
+        if ($this->carouselPlaces->removeElement($carouselPlace)) {
+            $carouselPlace->removeCarousel($this);
+        }
+
+        return $this;
+    }
+
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

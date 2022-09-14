@@ -8,8 +8,8 @@
 
 {% block main %}
 
-    {{ include('/partials/_carousel.html.twig',{imageName:imgCar,textCarousel:(imgDesc|striptags)}) }}
-
+{#    {{ include('/partials/_carousel.html.twig',{imageName:imgCar,textCarousel:(imgDesc|striptags)}) }}#}
+    <div id="home_root"></div>
 {#    <caroussel imageList={{ imageList }}></caroussel>#}
     {% for label, messages in app.flashes %}
         {% for message in messages %}
@@ -138,4 +138,8 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('home_js_manager') }}
 {% endblock %}

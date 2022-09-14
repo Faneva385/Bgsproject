@@ -7,7 +7,10 @@
 {% block header %} {{ include("/partials/_navbar.html.twig",{ value:'nos-services'}) }} {% endblock %}
 
 {% block main %}
-    {{ include('/partials/_carousel.html.twig',{imageName:imgCar,textCarousel:(imgDesc|striptags)}) }}
+{#    {{ include('/partials/_carousel.html.twig',{imageName:imgCar,textCarousel:(imgDesc|striptags)}) }}#}
+
+    <div id="carousel_services"></div>
+
     <div class="container-fluid py-5">
         <div class="container">
             <div class="row align-items-center">
@@ -46,4 +49,8 @@
         </div>
     </div>
     {{ include("/partials/_contact.html.twig") }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('services_js_manager') }}
 {% endblock %}

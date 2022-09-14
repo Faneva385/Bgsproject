@@ -5,7 +5,7 @@
 {% block body_id 'Blog details' %}
 
 {% block main %}
-    <blog-block data-post="{{ post.id }}" data-user="{{ app.user?app.user.id:0 }}"></blog-block>
+    <blog-block data-post="{{ post.id }}" data-user="{{ app.user ?app.user.id:0 }}"></blog-block>
 
 {% endblock %}
 {% block javascripts %}

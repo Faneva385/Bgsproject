@@ -7,7 +7,8 @@
 {% block header %} {{ include("/partials/_navbar.html.twig",{ value:'contact'}) }} {% endblock %}
 
 {% block main %}
-    {{ include('/partials/_carousel.html.twig',{imageName:imgCar,textCarousel:(imgDesc|striptags)}) }}
+{#    {{ include('/partials/_carousel.html.twig',{imageName:imgCar,textCarousel:(imgDesc|striptags)}) }}#}
+    <div id="carousel_contact"></div>
     <div class="container-fluid py-5">
         <div class="container">
             <div class="row align-items-end mb-4">
@@ -70,4 +71,8 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('contact_js_manager') }}
 {% endblock %}
