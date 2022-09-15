@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useRef} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,11 +14,17 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import logo from '../img/logo1.png'
 import {theme} from "./theme";
+import {useState} from "react";
 
 
 export async function jsonFecth(url,methods='POST',data=null){
+
     const params={
         method: methods,
+        headers:{
+            "accept": "application/ld+json",
+            "Content-Type": "application/ld+json"
+        }
     }
 
     if (data){
@@ -38,18 +44,71 @@ export async function jsonFecth(url,methods='POST',data=null){
 }
 
 export default function SignUp(props) {
+    const [loading, setLoading]= useState(false)
+    const [errorData, setErrorData]=useState({errorState:false, helpError:""})
+    const [reppassword, setReppassword]=useState({pwd:'',rpwd:''})
+
+    const pwdRef=useRef('')
+    const repPwdRef=useRef('')
+
+
+    const handleChangePwd=()=> {
+        setReppassword({
+            pwd: pwdRef.current.value,
+            rpwd: ''
+        })
+        console.log(reppassword)
+    }
+
+    const handleChangeRPwd=()=>{
+        setReppassword({
+            pwd:pwdRef.current.value,
+            rpwd:repPwdRef.current.value
+        })
+
+        if(reppassword.pwd!==repPwdRef.current.value) {
+            setErrorData({
+                errorState: true,
+                helpError: "Password is not matching"
+            })
+        }else {
+            setErrorData({
+                errorState: false
+            })
+        }
+    }
+
+
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+
         const jsonData={
-            firstName: data.get('firstName'),
-            lastName: data.get('lastName'),
-            email: data.get('email'),
-            password: data.get('password')
+            "firstName": data.get('firstName'),
+            "lastName": data.get('lastName'),
+            "email": data.get('email'),
+            "password": data.get('password')
         };
+
         console.log(jsonData)
-        const response = await jsonFecth('api/users','POST', jsonData)
-        console.log(response)
+        try{
+            setLoading(true)
+            const response = await jsonFecth('/api/users','POST', jsonData)
+            setLoading(false)
+            if (!loading){
+                const successEmail=response['email']
+                if(successEmail===data.get('email')){
+                    window.location.href='/signup/account/successfull'
+                } else {
+                    console.log( response )
+                }
+            }
+        }catch (e) {
+            setLoading(false)
+            window.location.href='/signup/account-exist'
+        }
+
     };
 
     return (
@@ -101,12 +160,31 @@ export default function SignUp(props) {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
+                                    error={errorData.errorState }
+                                    helperText={errorData.helpError}
+                                    onChange={handleChangePwd}
+                                    inputRef={pwdRef}
                                     required
                                     fullWidth
                                     name="password"
                                     label="Password"
                                     type="password"
                                     id="password"
+                                    autoComplete="new-password"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    error={errorData.errorState}
+                                    helperText={errorData.helpError}
+                                    onChange={handleChangeRPwd}
+                                    inputRef={repPwdRef}
+                                    required
+                                    fullWidth
+                                    name="passwordRepeat"
+                                    label="Repeat password"
+                                    type="password"
+                                    id="repeat-password"
                                     autoComplete="new-password"
                                 />
                             </Grid>
@@ -119,6 +197,7 @@ export default function SignUp(props) {
                         </Grid>
                         <Button
                             type="submit"
+                            disabled={loading || errorData.errorState}
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}

@@ -4,7 +4,10 @@
 
 {% block body_id 'Blog details' %}
 
+{% block header %} {{ include("/partials/_navbar.html.twig",{ value:'blog'}) }} {% endblock %}
+
 {% block main %}
+    <div id="post_element"></div>
     <blog-block data-post="{{ post.id }}" data-user="{{ app.user ?app.user.id:0 }}"></blog-block>
 
 {% endblock %}

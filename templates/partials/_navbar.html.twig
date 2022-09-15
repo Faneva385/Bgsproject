@@ -17,9 +17,17 @@
 
                 <div class="collapse navbar-collapse justify-content-between " id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0 ">
-
+                        {% if app.user %}
+                            {% for role in app.user.roles %}
+                                {% if(role=='ROLE_ADMIN') %}
+                                    <a class="nav-item nav-link " href="/admin" >Admin</a>
+                                    {% set break = true %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                         <a class="nav-item nav-link {{ (value=='accueil')?'active':'' }}" href={{ path('app_home') }} >Accueil</a>
                         <a class=" nav-item nav-link {{ (value=='nos-services')?'active':'' }}" href={{ path('app_service') }} >Nos services</a>
+                        <a class=" nav-item nav-link {{ (value=='blog')?'active':'' }}" href={{ path('app_detail_blog') }} >Blog</a>
 {#                        <div class="nav-item dropdown">#}
 {#                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>#}
 {#                               <a class="dropdown-menu rounded-0 m-0">#}
@@ -33,7 +41,8 @@
                     {% if( app.user ) %}
                     <a href={{ path('app_logout_g') }} class="btn btn-primary mr-3 d-none d-lg-block"  >Deconnexion</a>
                     {% else %}
-                    <a href={{ path('app_login') }} class="btn btn-primary mr-3 d-none d-lg-block "  >Connexion</a>
+                    <a href={{ path('app_sign_up') }} class="btn btn-primary mr-3 d-none d-lg-block "  >Créer un compte</a>
+                        <a href={{ path('app_login') }} class="btn btn-primary mr-3 d-none d-lg-block "  >Connexion</a>
                     {% endif %}
                 </div>
 

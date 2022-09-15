@@ -72,7 +72,7 @@ function CommentForm({post=null, onComment, comment=null, onCancel=null}) {
 
 }
 
-function Comments({post, user})  {
+export function Comments({post, user})  {
     const {items:comments,setItems: setComments,load,loading,count, hasMore}=usePaginatedFetch('/api/comments?post='+post)
 
     const addComment=useCallback(comment =>{
@@ -158,36 +158,3 @@ function TitleComment({count}) {
     </h3>
 }
 
-class BlogElement extends HTMLElement{
-
-    constructor() {
-        super();
-        this.observer=null
-    }
-
-    connectedCallback(){
-        const post = parseInt(this.dataset.post)
-        const user = parseInt(this.dataset.user)
-        if (this.observer===null){
-            this.observer= new IntersectionObserver((entries,observer) => {
-                entries.forEach(entry=>{
-                    if(entry.isIntersecting && entry.target === this){
-                        observer.disconnect()
-                        render(<Comments post={post} user={user}/>, this)
-                    }
-                })
-            })
-        }
-        this.observer.observe(this)
-    }
-
-    disconnectedCallback(){
-        if (this.observer){
-            this.observer.disconnect()
-        }
-        unmountComponentAtNode(this)
-    }
-
-}
-
-customElements.define('blog-block',BlogElement)
