@@ -22,8 +22,8 @@ export async function jsonFecth(url,methods='POST',data=null){
     const params={
         method: methods,
         headers:{
-            "accept": "application/ld+json",
-            "Content-Type": "application/ld+json"
+            "Accept": "application/json",
+            "Content-Type": "application/json"
         }
     }
 
@@ -32,15 +32,9 @@ export async function jsonFecth(url,methods='POST',data=null){
     }
 
     const response= await fetch(url,params)
-    if(response.status===204){
-        return null
-    }
     const responseData= await response.json();
-    if (response.ok){
-        return responseData
-    }else {
-        throw responseData
-    }
+    return responseData
+
 }
 
 export default function SignUp(props) {
@@ -57,7 +51,6 @@ export default function SignUp(props) {
             pwd: pwdRef.current.value,
             rpwd: ''
         })
-        console.log(reppassword)
     }
 
     const handleChangeRPwd=()=>{
@@ -97,6 +90,7 @@ export default function SignUp(props) {
             const response = await jsonFecth('/api/users','POST', jsonData)
             setLoading(false)
             if (!loading){
+                console.log(response)
                 const successEmail=response['email']
                 if(successEmail===data.get('email')){
                     window.location.href='/signup/account/successfull'

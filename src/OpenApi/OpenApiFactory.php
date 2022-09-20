@@ -22,7 +22,7 @@ class OpenApiFactory implements OpenApiFactoryInterface
     {
         $openApi=$this->decorated->__invoke($context);
         foreach($openApi->getPaths()->getPaths() as $key=>$path){
-            if($path->getGet()&& $path->getGet()->getSummary()==='hidden'){
+            if($path->getGet() && $path->getGet()->getSummary()==='hidden'){
                 $openApi->getPaths()->addPath($key,$path->withGet(null));
             }
         }
@@ -78,6 +78,5 @@ class OpenApiFactory implements OpenApiFactoryInterface
         $openApi->getPaths()->addPath('/api/login',$pathItem);
 
         return $openApi;
-
     }
 }

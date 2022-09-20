@@ -24,7 +24,6 @@ class LoginController extends AbstractController
         $this->userRepository=$userRepository;
     }
 
-
     /**
      * @Route("/login", name="app_login")
      * @param Request $request
@@ -33,6 +32,7 @@ class LoginController extends AbstractController
     public function login(Request $request, UserRepository $repository): Response
     {
         $userId=$this->client->getUserIdentification();
+
         $user=$this->getUser();
         if(!isset($user)&&!isset($userId)){ //if there is no user connected and no redirection from google
             $this->client->setPrompt('select_account');

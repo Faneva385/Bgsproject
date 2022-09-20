@@ -18,8 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AccountController extends AbstractController
 {
-
-
     /**
      * @Route("/create", name="app_create_account")
      * @param UserRepository $userRepository
@@ -28,11 +26,7 @@ class AccountController extends AbstractController
      * @param UserPasswordHasherInterface $passwordHasher
      * @return Response
      */
-    public function index(UserRepository $userRepository,
-                          ClientGoogle $clientGoogle,
-                          Request $request,
-                          UserPasswordHasherInterface $passwordHasher
-    ): Response
+    public function index(UserRepository $userRepository, ClientGoogle $clientGoogle, Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user=new User();
         $user->setEmail($clientGoogle->getUserEmail($request));

@@ -24,8 +24,10 @@ class BlogController extends AbstractController
         ]);
     }
 
-    /**post
+    /**
      * @Route("/detail", name="app_detail_blog")
+     * @param PostRepository $postRepo
+     * @return Response
      */
     public function details(PostRepository $postRepo): Response
     {

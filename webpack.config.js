@@ -20,6 +20,7 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
+    .addEntry('menu_manager', './assets/MenuManager.js')
     .addEntry('signin', './assets/SignInElement.js')
     .addEntry('signup_js_manager', './assets/js/SignUpElement.js')
     .addEntry('app_css', './assets/home.js')

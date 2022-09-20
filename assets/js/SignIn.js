@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,20 +17,40 @@ import {theme} from "./theme";
 
 
 export default function SignIn(props) {
+    const [loading, setLoading]= useState({})
+    const [responseData, setResponseData]= useState({})
+
     const handleSubmit = async (event) => {
+
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+
         const jsonData={
             username: data.get('email'),
             password: data.get('password')
         };
-        console.log(jsonData)
-        const response =  jsonFecth('api/login', 'POST', jsonData)
-        console.log(response);
-    };
-    console.log(props)
-    return (
-        <ThemeProvider theme={theme}>
+
+        try{
+            setLoading({'post':true})
+            await jsonFecth('api/login', 'POST', jsonData)
+            setLoading({'post':false})
+
+            if(!loading.post) {
+                setLoading(loading.get=true)
+                const response =await jsonFecth('/api/login')
+                setLoading(loading.get=false)
+                if(!loading.get){
+                    setResponseData(response)
+                    console.log("okokoko")
+                    console.log(responseData)
+                }
+            }
+        }catch (e) {
+            console.log(e)
+        }
+
+    }
+    return (<ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
@@ -40,7 +60,6 @@ export default function SignIn(props) {
                         alignItems: 'center',
                     }}
                 >
-
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
@@ -71,11 +90,12 @@ export default function SignIn(props) {
                         />
                         <Button
                             type="submit"
+                            disabled={loading.post}
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign In
+                            {'Log In'}
                         </Button>
                         <Grid container>
                             <Grid item xs>
@@ -95,12 +115,11 @@ export default function SignIn(props) {
                             sx={{ mt: 3, mb: 2 }}
                             href={props.linkGoogle}
                         >
-                                {"Sign in with Google account"}
+                                {"Log in with Google account"}
                         </Button>
                     </Box>
                 </Box>
             </Container>
-        </ThemeProvider>
-    );
+        </ThemeProvider>);
 }
 
